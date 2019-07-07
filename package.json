@@ -1,0 +1,8 @@
+{
+  "name": "testiat-api-client-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:DanielRuf/testiat-api-client-node.git",
+  "author": "Daniel Ruf <daniel@daniel-ruf.de>",
+  "license": "MIT"
+}
