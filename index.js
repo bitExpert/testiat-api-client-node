@@ -71,16 +71,14 @@ function getAvailableClients() {
 }
 
 function getProjectStatus(id) {
-    if (
-        typeof id === 'undefined' ||
-        typeof id !== 'string'
-    ) {
-        return new Promise(function(_, reject){
-            reject(new Error('Please provide a valid project ID.'));
-        });
-    }
-
     return new Promise(function(resolve, reject){
+        if (
+            typeof id === 'undefined' ||
+            typeof id !== 'string'
+        ) {
+            reject(new Error('Please provide a valid project ID.'));
+        }
+
         const data = querystring.stringify(
             Object.assign(
                 {},
@@ -119,26 +117,22 @@ function getProjectStatus(id) {
 }
 
 function startEmailTest(subject, html, clients) {
-    if (
-        typeof subject === 'undefined' ||
-        typeof html === 'undefined' ||
-        typeof clients === 'undefined'
-    ) {
-        return new Promise(function(_, reject){
-            reject(new Error('Please provide subject, html and client list.'));
-        });
-    }
-
-    if (
-        !Array.isArray(clients) ||
-        clients.length === 0
-    ) {
-        return new Promise(function(_, reject){
-            reject(new Error('Please provide at least one client as array.'));
-        });
-    }
-
     return new Promise(function(resolve, reject){
+        if (
+            typeof subject === 'undefined' ||
+            typeof html === 'undefined' ||
+            typeof clients === 'undefined'
+        ) {
+            reject(new Error('Please provide subject, html and client list.'));
+        }
+
+        if (
+            !Array.isArray(clients) ||
+            clients.length === 0
+        ) {
+            reject(new Error('Please provide at least one client as array.'));
+        }
+
         const data = querystring.stringify(
             Object.assign(
                 {},
