@@ -33,6 +33,8 @@ You can also use [dotenv](https://www.npmjs.com/package/dotenv).
 
 ## Available methods
 
+All methods return a Promise and are either resolved to the API response or rejected with an Error object when one of the required arguments was not set or of the correct type.
+
 
 ### getAvailableClients
 
@@ -41,7 +43,7 @@ List the email clients that you can use.
 
 ### getProjectStatus(id)
 
-Gets the status of the given project ID
+Gets the status of the given project ID.
 
 
 ### startEmailTest(subject, html, clients)
