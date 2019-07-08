@@ -1,6 +1,6 @@
 {
   "name": "testiat-api-client-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "the NodeJS API client for Testi@",
   "main": "index.js",
   "repository": "git@github.com:bitExpert/testiat-api-client-node.git",
