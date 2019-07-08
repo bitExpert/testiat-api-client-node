@@ -6,8 +6,8 @@ This is the NodeJS API client for [Testi@](https://testi.at).
 ## Installation
 
 ```
-yarn add danielruf/testiat-api-client-node --dev
-npm install danielruf/testiat-api-client-node --dev
+yarn add testiat-api-client-node --dev
+npm install testiat-api-client-node --dev
 ```
 
 
