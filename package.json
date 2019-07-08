@@ -5,9 +5,9 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://bitExpert/testiat-api-client-node.git"
+    "url": "git+https://github.com/bitExpert/testiat-api-client-node.git"
   },
-  "homepage": "https://github.com/bitExpert/testiat-api-client-node",
+  "homepage": "https://github.com/bitExpert/testiat-api-client-node#readme",
   "bugs": {
     "url": "https://github.com/bitExpert/testiat-api-client-node/issues"
   },
