@@ -3,7 +3,21 @@
   "version": "1.0.1",
   "description": "the NodeJS API client for Testi@",
   "main": "index.js",
-  "repository": "git@github.com:bitExpert/testiat-api-client-node.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitExpert/testiat-api-client-node.git"
+  },
+  "homepage": "https://github.com/bitExpert/testiat-api-client-node",
+  "bugs": {
+    "url": "https://github.com/bitExpert/testiat-api-client-node/issues"
+  },
+  "keywords": [
+    "testiat",
+    "email",
+    "newsletter",
+    "testing",
+    "api"
+  ],
   "author": "Daniel Ruf <daniel@daniel-ruf.de>",
   "license": "MIT"
 }
