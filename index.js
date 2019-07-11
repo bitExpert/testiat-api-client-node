@@ -119,9 +119,9 @@ function getProjectStatus(id) {
 function startEmailTest(subject, html, clients) {
     return new Promise(function(resolve, reject){
         if (
-            typeof subject === 'undefined' ||
-            typeof html === 'undefined' ||
-            typeof clients === 'undefined'
+            !subject ||
+            !html ||
+            !clients
         ) {
             reject(new Error('Please provide subject, html and client list.'));
         }
@@ -175,5 +175,6 @@ function startEmailTest(subject, html, clients) {
 module.exports = {
     getAvailableClients,
     getProjectStatus,
-    startEmailTest
+    startEmailTest,
+    API_ENDPOINT
 }
