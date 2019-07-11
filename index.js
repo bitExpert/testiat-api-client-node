@@ -17,7 +17,7 @@ if (
     !argvProcessed.keys.includes('--apikey') &&
     typeof process.env.TESTIAT_APIKEY === 'undefined'
 ) {
-    console.error('Please provide an API key');
+    console.error('Please provide an API key.');
 }
 
 const API_KEY = process.env.TESTIAT_APIKEY
