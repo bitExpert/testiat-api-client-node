@@ -3,6 +3,10 @@
   "version": "1.0.4",
   "description": "the NodeJS API client for Testi@",
   "main": "index.js",
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "nock": "^10.0.6"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitExpert/testiat-api-client-node.git"
@@ -18,6 +22,9 @@
     "testing",
     "api"
   ],
+  "scripts": {
+    "test": "jest --apikey=sometestapikey"
+  },
   "author": "Daniel Ruf <daniel@daniel-ruf.de>",
   "license": "Apache-2.0"
 }
