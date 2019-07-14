@@ -3,6 +3,14 @@ const querystring = require('querystring');
 
 const API_ENDPOINT = 'https://testi.at/UAPI';
 
+const STRINGS = {
+    ERROR: {
+        MISSING_PROJECT_ID: 'Please provide a valid project ID.',
+        MISSING_SUBJECT_HTML_CLIENTS: 'Please provide subject, html and client list.',
+        MISSING_CLIENTS: 'Please provide at least one client as array.'
+    }
+}
+
 module.exports = class Testiat {
 
     constructor(apikey) {
@@ -65,7 +73,7 @@ module.exports = class Testiat {
                 typeof id === 'undefined' ||
                 typeof id !== 'string'
             ) {
-                reject(new Error('Please provide a valid project ID.'));
+                reject(new Error(STRINGS.ERROR.MISSING_PROJECT_ID));
             }
     
             const data = querystring.stringify(
@@ -112,14 +120,14 @@ module.exports = class Testiat {
                 !html ||
                 !clients
             ) {
-                reject(new Error('Please provide subject, html and client list.'));
+                reject(new Error(STRINGS.ERROR.MISSING_SUBJECT_HTML_CLIENTS));
             }
     
             if (
                 !Array.isArray(clients) ||
                 clients.length === 0
             ) {
-                reject(new Error('Please provide at least one client as array.'));
+                reject(new Error(STRINGS.ERROR.MISSING_CLIENTS));
             }
     
             const data = querystring.stringify(
