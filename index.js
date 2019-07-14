@@ -3,6 +3,25 @@ const querystring = require('querystring');
 
 const API_ENDPOINT = 'https://testi.at/UAPI';
 
+let supportsColors = false;
+
+if (
+    typeof process.stdout.hasColors !== 'undefined' &&
+    argvProcessed.keys.includes('--color')
+) {
+    supportsColors = process.stdout.hasColors();
+}
+
+const COLOR = {
+    RED: '',
+    RESET: ''
+}
+
+if (supportsColors) {
+    COLOR.RED = "\x1b[31m";
+    COLOR.RESET = "\x1b[0m";
+}
+
 module.exports = class Testiat {
 
     constructor(apikey) {
@@ -65,7 +84,7 @@ module.exports = class Testiat {
                 typeof id === 'undefined' ||
                 typeof id !== 'string'
             ) {
-                reject(new Error('Please provide a valid project ID.'));
+                reject(new Error(`${COLOR.RED}Please provide a valid project ID.${COLOR.RESET}`));
             }
     
             const data = querystring.stringify(
@@ -112,14 +131,14 @@ module.exports = class Testiat {
                 !html ||
                 !clients
             ) {
-                reject(new Error('Please provide subject, html and client list.'));
+                reject(new Error(`${COLOR.RED}Please provide subject, html and client list.${COLOR.RESET}`));
             }
     
             if (
                 !Array.isArray(clients) ||
                 clients.length === 0
             ) {
-                reject(new Error('Please provide at least one client as array.'));
+                reject(new Error(`${COLOR.RED}Please provide at least one client as array.${COLOR.RESET}`));
             }
     
             const data = querystring.stringify(
