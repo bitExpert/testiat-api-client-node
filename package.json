@@ -1,7 +1,7 @@
 {
   "name": "testiat-api-client-node",
   "version": "1.0.5",
-  "description": "the NodeJS API client for Testi@",
+  "description": "NodeJS API client for Testi@",
   "main": "index.js",
   "devDependencies": {
     "jest": "^24.8.0",
