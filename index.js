@@ -2,7 +2,7 @@ const https = require('https');
 const querystring = require('querystring');
 const argvProcessed = require('./util/process-argv.js');
 
-const API_ENDPOINT = 'https://testi.at//UAPI';
+const API_ENDPOINT = 'https://testi.at/UAPI';
 
 console.log(`
 ████████╗███████╗███████╗████████╗██╗    █████╗ ████████╗
