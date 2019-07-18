@@ -23,7 +23,7 @@ const testiatApiClient = require('testiat-api-client-node');
 })();
 ```
 
-```
+```shell
 node index.js --apikey <your-api-key>
 TESTIAT_APIKEY=<your-api-key> node index.js
 ```
