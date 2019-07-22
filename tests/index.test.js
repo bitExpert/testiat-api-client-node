@@ -1,11 +1,12 @@
 
 const nock = require('nock');
-const testiatApiClient = require('../index.js');
+const Testiat = require('../index.js');
+const testiatApiClient = new Testiat("");
 
 const EXISTING_PROJECT_ID = '3nXhwO7IoLu1GkhPAVUjO7T1';
 const NOT_EXISTING_PROJECT_ID = 'pD9HxnLigMsPzxFqNytPP8uvY';
 
-nock(testiatApiClient.API_ENDPOINT)
+nock(testiatApiClient.getApiEndpoint())
     .post('/listEmlClients')
     .reply(200, [
         {
@@ -16,12 +17,12 @@ nock(testiatApiClient.API_ENDPOINT)
     ]
 );
 
-nock(testiatApiClient.API_ENDPOINT)
+nock(testiatApiClient.getApiEndpoint())
     .post('/projStatus', new RegExp(`ProjID=${NOT_EXISTING_PROJECT_ID}`,'gi'))
     .reply(200, { Error: 'Project Not Found', ErrCode: 11 }
 );
 
-nock(testiatApiClient.API_ENDPOINT)
+nock(testiatApiClient.getApiEndpoint())
     .post('/projStatus', new RegExp(`ProjID=${EXISTING_PROJECT_ID}`,'gi'))
     .reply(200, {
         Subject: 'Email Subject',
@@ -35,7 +36,7 @@ nock(testiatApiClient.API_ENDPOINT)
     }
 );
 
-nock(testiatApiClient.API_ENDPOINT)
+nock(testiatApiClient.getApiEndpoint())
     .post('/letsgo', body => body.Subject && body.HTML && body.ECID)
     .reply(200, { Status: 'OK', ProjID: EXISTING_PROJECT_ID }
 );

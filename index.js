@@ -1,180 +1,163 @@
 const https = require('https');
 const querystring = require('querystring');
-const argvProcessed = require('./util/process-argv.js');
 
 const API_ENDPOINT = 'https://testi.at/UAPI';
 
-console.log(`
-████████╗███████╗███████╗████████╗██╗    █████╗ ████████╗
-╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██║   ██╔══██╗╚══██╔══╝
-   ██║   █████╗  ███████╗   ██║   ██║   ███████║   ██║ 
-   ██║   ██╔══╝  ╚════██║   ██║   ██║   ██╔══██║   ██║   
-   ██║   ███████╗███████║   ██║   ██║██╗██║  ██║   ██║   
-   ╚═╝   ╚══════╝╚══════╝   ╚═╝   ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝ 
-`);
+module.exports = class Testiat {
 
-if (
-    !argvProcessed.keys.includes('--apikey') &&
-    typeof process.env.TESTIAT_APIKEY === 'undefined'
-) {
-    console.error('Please provide an API key.');
-}
+    constructor(apikey) {
+        this.apikey = apikey;
 
-const API_KEY = process.env.TESTIAT_APIKEY
-    ? process.env.TESTIAT_APIKEY
-    : argvProcessed.options['--apikey'];
+        this.defaultRequestData = {
+            API: this.apikey
+        };
 
-const api_url = new URL(API_ENDPOINT);
-
-const defaultRequestData = {
-    API: API_KEY
-};
-
-const defaultRequestDataString = querystring.stringify(defaultRequestData);
-
-const defaultRequestOptions = {
-    hostname: api_url.hostname,
-    port: 443,
-    path: api_url.pathname,
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': defaultRequestDataString.length
+        this.api_url = new URL(API_ENDPOINT);
+    
+        this.defaultRequestDataString = querystring.stringify(this.defaultRequestData);
+        
+        this.defaultRequestOptions = {
+            hostname: this.api_url.hostname,
+            port: 443,
+            path: this.api_url.pathname,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': this.defaultRequestDataString.length
+            }
+        }
     }
-}
 
-function getAvailableClients() {
-    return new Promise(function(resolve, reject){
-        const data = defaultRequestDataString;
+    getApiEndpoint() {
+        return API_ENDPOINT;
+    }
 
-        const requestOptions = Object.assign(
-            {},
-            defaultRequestOptions,
-            {
-                path: api_url.pathname + '/listEmlClients'
-            }
-        );
-
-        const req = https.request(requestOptions, (res) => {
-            res.on('data', (data) => {
-                resolve(
-                    JSON.parse(data.toString('utf-8'))
-                );
-            });
-        }).on('error', (err) => {
-            reject(err);
-        });
-
-        req.write(data);
-        req.end();
-    });
-}
-
-function getProjectStatus(id) {
-    return new Promise(function(resolve, reject){
-        if (
-            typeof id === 'undefined' ||
-            typeof id !== 'string'
-        ) {
-            reject(new Error('Please provide a valid project ID.'));
-        }
-
-        const data = querystring.stringify(
-            Object.assign(
+    getAvailableClients() {
+        return new Promise((resolve, reject) => {
+            const data = this.defaultRequestDataString;
+    
+            const requestOptions = Object.assign(
                 {},
-                defaultRequestData,
+                this.defaultRequestOptions,
                 {
-                    ProjID: id
+                    path: this.api_url.pathname + '/listEmlClients'
                 }
-            )
-        );
-
-        const requestOptions = Object.assign(
-            {},
-            defaultRequestOptions,
-            {
-                path: api_url.pathname + '/projStatus',
-                headers: {
-                    ...defaultRequestOptions.headers,
-                    'Content-Length': data.length
-                }
-            }
-        );
-
-        const req = https.request(requestOptions, (res) => {
-            res.on('data', (data) => {
-                resolve(
-                    JSON.parse(data.toString('utf-8'))
-                );
+            );
+    
+            const req = https.request(requestOptions, (res) => {
+                res.on('data', (data) => {
+                    resolve(
+                        JSON.parse(data.toString('utf-8'))
+                    );
+                });
+            }).on('error', (err) => {
+                reject(err);
             });
-        }).on('error', (err) => {
-            reject(err);
+    
+            req.write(data);
+            req.end();
         });
-
-        req.write(data);
-        req.end();
-    });
-}
-
-function startEmailTest(subject, html, clients) {
-    return new Promise(function(resolve, reject){
-        if (
-            !subject ||
-            !html ||
-            !clients
-        ) {
-            reject(new Error('Please provide subject, html and client list.'));
-        }
-
-        if (
-            !Array.isArray(clients) ||
-            clients.length === 0
-        ) {
-            reject(new Error('Please provide at least one client as array.'));
-        }
-
-        const data = querystring.stringify(
-            Object.assign(
+    }
+    
+    getProjectStatus(id) {
+        return new Promise((resolve, reject) => {
+            if (
+                typeof id === 'undefined' ||
+                typeof id !== 'string'
+            ) {
+                reject(new Error('Please provide a valid project ID.'));
+            }
+    
+            const data = querystring.stringify(
+                Object.assign(
+                    {},
+                    this.defaultRequestData,
+                    {
+                        ProjID: id
+                    }
+                )
+            );
+    
+            const requestOptions = Object.assign(
                 {},
-                defaultRequestData,
+                this.defaultRequestOptions,
                 {
-                    Subject: subject,
-                    HTML: html,
-                    'ECID[]': clients
+                    path: this.api_url.pathname + '/projStatus',
+                    headers: {
+                        ...this.defaultRequestOptions.headers,
+                        'Content-Length': data.length
+                    }
                 }
-            )
-        );
-
-        const requestOptions = Object.assign(
-            {},
-            defaultRequestOptions,
-            {
-                path: api_url.pathname + '/letsgo',
-                headers: {
-                    ...defaultRequestOptions.headers,
-                    'Content-Length': data.length
-                }
-            }
-        );
-
-        const req = https.request(requestOptions, (res) => {
-            res.on('data', (data) => {
-                resolve(
-                    JSON.parse(data.toString('utf-8'))
-                );
+            );
+    
+            const req = https.request(requestOptions, (res) => {
+                res.on('data', (data) => {
+                    resolve(
+                        JSON.parse(data.toString('utf-8'))
+                    );
+                });
+            }).on('error', (err) => {
+                reject(err);
             });
-        }).on('error', (err) => {
-            reject(err);
+    
+            req.write(data);
+            req.end();
         });
-
-        req.write(data);
-        req.end();
-    });
-}
-
-module.exports = {
-    getAvailableClients,
-    getProjectStatus,
-    startEmailTest,
-    API_ENDPOINT
-}
+    }
+    
+    startEmailTest(subject, html, clients) {
+        return new Promise((resolve, reject) => {
+            if (
+                !subject ||
+                !html ||
+                !clients
+            ) {
+                reject(new Error('Please provide subject, html and client list.'));
+            }
+    
+            if (
+                !Array.isArray(clients) ||
+                clients.length === 0
+            ) {
+                reject(new Error('Please provide at least one client as array.'));
+            }
+    
+            const data = querystring.stringify(
+                Object.assign(
+                    {},
+                    this.defaultRequestData,
+                    {
+                        Subject: subject,
+                        HTML: html,
+                        'ECID[]': clients
+                    }
+                )
+            );
+    
+            const requestOptions = Object.assign(
+                {},
+                this.defaultRequestOptions,
+                {
+                    path: this.api_url.pathname + '/letsgo',
+                    headers: {
+                        ...this.defaultRequestOptions.headers,
+                        'Content-Length': data.length
+                    }
+                }
+            );
+    
+            const req = https.request(requestOptions, (res) => {
+                res.on('data', (data) => {
+                    resolve(
+                        JSON.parse(data.toString('utf-8'))
+                    );
+                });
+            }).on('error', (err) => {
+                reject(err);
+            });
+    
+            req.write(data);
+            req.end();
+        });
+    }
+};
