@@ -1,7 +1,7 @@
 
 const nock = require('nock');
 const Testiat = require('../index.js');
-const testiatApiClient = new Testiat("");
+const testiatApiClient = new Testiat('');
 
 const EXISTING_PROJECT_ID = '3nXhwO7IoLu1GkhPAVUjO7T1';
 const NOT_EXISTING_PROJECT_ID = 'pD9HxnLigMsPzxFqNytPP8uvY';
@@ -10,9 +10,9 @@ nock(testiatApiClient.getApiEndpoint())
     .post('/listEmlClients')
     .reply(200, [
         {
-            ECID: "1234567890",
-            Name: "testname",
-            Type: "some"
+            ECID: '1234567890',
+            Name: 'testname',
+            Type: 'some'
         }
     ]
 );
@@ -46,9 +46,9 @@ describe('getAvailableClients', () => {
         const data = await testiatApiClient.getAvailableClients();
         expect(Array.isArray(data)).toBe(true);
         expect(data.length).toBeGreaterThan(0);
-        expect(typeof data[0].ECID).toBe("string");
-        expect(typeof data[0].Name).toBe("string");
-        expect(typeof data[0].Type).toBe("string");
+        expect(typeof data[0].ECID).toBe('string');
+        expect(typeof data[0].Name).toBe('string');
+        expect(typeof data[0].Type).toBe('string');
     });
 });
 
