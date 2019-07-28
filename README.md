@@ -15,7 +15,8 @@ npm install testiat-api-client-node
 
 `index.js`
 ```javascript
-const testiatApiClient = require('testiat-api-client-node');
+const Testiat = require('../index.js');
+const testiatApiClient = new Testiat('yourapikey');
 
 (async () => {
     const clientsList = await testiatApiClient.getAvailableClients();
@@ -23,17 +24,10 @@ const testiatApiClient = require('testiat-api-client-node');
 })();
 ```
 
-```shell
-node index.js --apikey <your-api-key>
-TESTIAT_APIKEY=<your-api-key> node index.js
-```
-
-You can also use [dotenv](https://www.npmjs.com/package/dotenv).
-
 
 ## Available methods
 
-All methods return a Promise and are either resolved to the API response or rejected with an Error object when one of the required arguments was not set or of the correct type.
+All methods return a Promise and are either resolved with the API response or rejected with an Error object when one of the required arguments was not set or of the correct type.
 
 
 ### getAvailableClients
