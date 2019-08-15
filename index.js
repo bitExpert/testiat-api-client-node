@@ -23,7 +23,7 @@ module.exports = class Testiat {
         this.api_url = new URL(API_ENDPOINT);
     
         this.defaultRequestDataString = querystring.stringify(this.defaultRequestData);
-        
+
         this.defaultRequestOptions = {
             hostname: this.api_url.hostname,
             port: 443,
@@ -43,7 +43,7 @@ module.exports = class Testiat {
     getAvailableClients() {
         return new Promise((resolve, reject) => {
             const data = this.defaultRequestDataString;
-    
+
             const requestOptions = Object.assign(
                 {},
                 this.defaultRequestOptions,
@@ -51,7 +51,7 @@ module.exports = class Testiat {
                     path: this.api_url.pathname + '/listEmlClients'
                 }
             );
-    
+
             const req = https.request(requestOptions, (res) => {
                 res.on('data', (data) => {
                     resolve(
@@ -61,12 +61,12 @@ module.exports = class Testiat {
             }).on('error', (err) => {
                 reject(err);
             });
-    
+
             req.write(data);
             req.end();
         });
     }
-    
+
     getProjectStatus(id) {
         return new Promise((resolve, reject) => {
             if (
@@ -75,7 +75,7 @@ module.exports = class Testiat {
             ) {
                 reject(new Error(STRINGS.ERROR.MISSING_PROJECT_ID));
             }
-    
+
             const data = querystring.stringify(
                 Object.assign(
                     {},
@@ -122,14 +122,14 @@ module.exports = class Testiat {
             ) {
                 reject(new Error(STRINGS.ERROR.MISSING_SUBJECT_HTML_CLIENTS));
             }
-    
+
             if (
                 !Array.isArray(clients) ||
                 clients.length === 0
             ) {
                 reject(new Error(STRINGS.ERROR.MISSING_CLIENTS));
             }
-    
+
             const data = querystring.stringify(
                 Object.assign(
                     {},
@@ -141,7 +141,7 @@ module.exports = class Testiat {
                     }
                 )
             );
-    
+
             const requestOptions = Object.assign(
                 {},
                 this.defaultRequestOptions,
@@ -153,7 +153,7 @@ module.exports = class Testiat {
                     }
                 }
             );
-    
+
             const req = https.request(requestOptions, (res) => {
                 res.on('data', (data) => {
                     resolve(
@@ -163,7 +163,7 @@ module.exports = class Testiat {
             }).on('error', (err) => {
                 reject(err);
             });
-    
+
             req.write(data);
             req.end();
         });
