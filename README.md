@@ -14,7 +14,6 @@ npm install testiat-api-client-node
 
 ## Usage
 
-`index.js`
 ```javascript
 const Testiat = require('../index.js');
 const testiatApiClient = new Testiat('yourapikey');
