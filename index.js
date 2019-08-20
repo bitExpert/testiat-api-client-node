@@ -2,6 +2,9 @@ const https = require('https');
 const querystring = require('querystring');
 
 const API_ENDPOINT = 'https://testi.at/UAPI';
+const API_ENDPOINT_CLIENTS_LIST = '/listEmlClients';
+const API_ENDPOINT_PROJECT_STATUS = '/projStatus';
+const API_ENDPOINT_EMAILTEST_START = '/letsgo';
 
 const STRINGS = {
     ERROR: {
@@ -48,7 +51,7 @@ module.exports = class Testiat {
                 {},
                 this.defaultRequestOptions,
                 {
-                    path: this.api_url.pathname + '/listEmlClients'
+                    path: this.api_url.pathname + API_ENDPOINT_CLIENTS_LIST
                 }
             );
 
@@ -90,7 +93,7 @@ module.exports = class Testiat {
                 {},
                 this.defaultRequestOptions,
                 {
-                    path: this.api_url.pathname + '/projStatus',
+                    path: this.api_url.pathname + API_ENDPOINT_PROJECT_STATUS,
                     headers: {
                         ...this.defaultRequestOptions.headers,
                         'Content-Length': data.length
@@ -146,7 +149,7 @@ module.exports = class Testiat {
                 {},
                 this.defaultRequestOptions,
                 {
-                    path: this.api_url.pathname + '/letsgo',
+                    path: this.api_url.pathname + API_ENDPOINT_EMAILTEST_START,
                     headers: {
                         ...this.defaultRequestOptions.headers,
                         'Content-Length': data.length
